@@ -1,4 +1,26 @@
-XBee Zigbee Mesh Kit: https://www.digi.com/resources/documentation/Digidocs/90001942-13/
+## XBee Zigbee Mesh Kit
+Source - https://www.digi.com/products/models/xk3-z8s-wzm
+
+Docs - https://www.digi.com/resources/documentation/Digidocs/90001942-13/
+
+## Air Quality, Temperature, Pressure, Humidity Sensor (BME680)
+Sensor source - 
+
+Breakout board source - https://www.sparkfun.com/products/15743
+
+
+## UV Light Sensor
+Source - https://www.sparkfun.com/products/16230
+
+Docs - 
+
+## Soil Moisture Sensor
+Source - https://www.seeedstudio.com/Grove-Capacitive-Moisture-Sensor-Corrosion-Resistant.html
+
+## Visible Light Sensor
+Source - Frys
+
+Docs - https://www.osepp.com/electronic-modules/sensor-modules/69-light-sensor-module
 
 
 
