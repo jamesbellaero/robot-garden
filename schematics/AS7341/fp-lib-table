@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "AS7341- Breakout Library")(type KiCad)(uri "${KIPRJMOD}/AS7341- Breakout Library.pretty")(options "")(descr ""))
+  (lib (name AS7341)(type KiCad)(uri "${KIPRJMOD}/AS7341- Breakout Library.pretty/AS7341.pretty")(options "")(descr ""))
+)
