@@ -31,7 +31,7 @@ Docs - https://media.digikey.com/pdf/Data%20Sheets/Austriamicrosystems%20PDFs/AS
 ## Soil Temperature Sensor
 Source - https://www.sparkfun.com/products/11050
 
-Docs - 
+Docs - https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
 
 
 
