@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\Users\t6m4f\OneDrive\Projects\Robot Garden\schematics\AS7341\AS7341.sch</source>
+    <date>7/27/2020 10:39:10 PM</date>
+    <tool>Eeschema (5.1.6)-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>AS7341 Breakout Board</title>
+        <company/>
+        <rev>v1.0</rev>
+        <date>2020-07-27</date>
+        <source>AS7341.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value="creativecommons.org/licenses/by/4.0/"/>
+        <comment number="3" value="License: CC BY 4.0"/>
+        <comment number="4" value="Author: James Bell"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="R3">
+      <value>R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5F1FF013</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5F1FEC6D</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5F1FD9ED</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>AS7341</value>
+      <footprint>AS7341- Breakout Library:AS7341</footprint>
+      <libsource lib="AS7341- Symbol Library" part="AS7341" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5F1FC45E</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>LED</value>
+      <footprint>LED_THT:LED_D3.0mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="LED" description="Light emitting diode"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5F20F3A5</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="AS7341- Symbol Library" part="AS7341">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">AS7341</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VDD" type="power_in"/>
+        <pin num="2" name="SCL" type="input"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="LDR" type="output"/>
+        <pin num="5" name="PGND" type="power_in"/>
+        <pin num="6" name="GPIO" type="input"/>
+        <pin num="7" name="INT" type="output"/>
+        <pin num="8" name="SDA" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="LED">
+      <description>Light emitting diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>LED*</fp>
+        <fp>LED_SMD:*</fp>
+        <fp>LED_THT:*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="AS7341- Symbol Library">
+      <uri>C:\Users\t6m4f\OneDrive\Projects\Robot Garden\schematics\AS7341/AS7341- Symbol Library.lib</uri>
+    </library>
+    <library logical="Device">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Device.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="GND">
+      <node ref="U1" pin="5"/>
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="2" name="Net-(U1-Pad6)">
+      <node ref="U1" pin="6"/>
+    </net>
+    <net code="3" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2"/>
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="4" name="Net-(R3-Pad2)">
+      <node ref="U1" pin="8"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="5" name="Net-(R1-Pad1)">
+      <node ref="U1" pin="2"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="6" name="Net-(D1-Pad1)">
+      <node ref="U1" pin="4"/>
+      <node ref="D1" pin="1"/>
+    </net>
+    <net code="7" name="Net-(D1-Pad2)">
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="8" name="VDD">
+      <node ref="U1" pin="1"/>
+      <node ref="R1" pin="2"/>
+      <node ref="R2" pin="1"/>
+      <node ref="R3" pin="1"/>
+    </net>
+  </nets>
+</export>

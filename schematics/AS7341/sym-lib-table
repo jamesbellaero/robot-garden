@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "AS7341- Symbol Library")(type Legacy)(uri "${KIPRJMOD}/AS7341- Symbol Library.lib")(options "")(descr ""))
+)
