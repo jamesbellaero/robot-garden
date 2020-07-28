@@ -4,15 +4,15 @@ Source - https://www.digi.com/products/models/xk3-z8s-wzm
 Docs - https://www.digi.com/resources/documentation/Digidocs/90001942-13/
 
 ## Air Quality, Temperature, Pressure, Humidity Sensor (BME680)
-Sensor source - 
+Source - https://www.sparkfun.com/products/15743
 
-Breakout board source - https://www.sparkfun.com/products/15743
+Docs - https://shop.pimoroni.com/products/bme680-breakout (including libraries as links, such as https://github.com/BoschSensortec/BME680_driver)
 
 
 ## UV Light Sensor
 Source - https://www.sparkfun.com/products/16230
 
-Docs - 
+Docs - parallax.com/sites/default/files/downloads/28091-UV-Sensor-User-Manual.pdf
 
 ## Soil Moisture Sensor
 Source - https://www.seeedstudio.com/Grove-Capacitive-Moisture-Sensor-Corrosion-Resistant.html
@@ -22,6 +22,16 @@ Source - Frys
 
 Docs - https://www.osepp.com/electronic-modules/sensor-modules/69-light-sensor-module
 
+## Light Spectrum Sensor
+Source - https://digikey.com/product-detail/en/ams/AS7341-DLGT/AS7341-DLGTCT-ND/9996233
+
+Docs - https://media.digikey.com/pdf/Data%20Sheets/Austriamicrosystems%20PDFs/AS7341_DS.pdf
+
+
+## Soil Temperature Sensor
+Source - https://www.sparkfun.com/products/11050
+
+Docs - 
 
 
 
