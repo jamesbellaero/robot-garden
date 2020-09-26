@@ -1,23 +1,17 @@
-import sys, getopt
+import sys
 
 import serial
 
+from args_parser import ArgumentParser
+
 def run_logger(argv):
     # Read in command line arguments
-    try:
-        opts,args = getopt.getopt(argv,"i:j:",["opt1","opt2"])
-    except getopt.GetoptError:
-        print 'Error reading inputs. Allowable inputs are found in the README'
-        sys.exit(2)
-    
-    for opt,arg in opts:
-        if opt == "-i","--opt1":
-            port = arg # or something like this
-        elif opt == "-j","--opt2":
-            outfile = arg #or something like this
-            
+    parser = ArgumentParser()
+    parser.parse(argv)
+    port = parser.port
+
     # Open port
-    s = serial.Serial('/dev/ttyUSB0') 
+    s = serial.Serial(port) 
 
     # Begin reading data
 
@@ -26,7 +20,7 @@ def run_logger(argv):
 
 
     # Either create a new file or write to an existing one
-
+ 
 
     # On error, attempt to reopen port
 
@@ -37,19 +31,7 @@ def run_logger(argv):
 
 
 
-    ser.close()
-
-
-
-
-
-
-
-
-
-
-
-
+    s.close()
 
 
 
