@@ -1,4 +1,4 @@
 
 
-class Logger:
+class DataLogger:
     def init(self):
