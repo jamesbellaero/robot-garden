@@ -10,9 +10,11 @@ class ArgumentParser:
         self.file_prefix = None
         self.file_suffix = None
         self.directory = None
+        self.baud_rate = None
+        self.max_queue_size = None
     def parse(self, argv):
         try:
-            opts,args = getopt.getopt(argv,"p:P:S:d:",["port","prefix","suffix","directory"])
+            opts,args = getopt.getopt(argv,"p:P:S:d:b:m:",["port","prefix","suffix","directory","baud_rate","max_queue_size"])
         except getopt.GetoptError:
             print("Error reading inputs. Allowable inputs are found in the README")
             sys.exit(2)
@@ -25,7 +27,11 @@ class ArgumentParser:
                 self.file_prefix = arg #or something like this
             elif opt == "-S" or opt == "--suffix":
                 self.file_suffix = arg
-            elif opt == "-d" or opt == "--directory"
+            elif opt == "-d" or opt == "--directory":
                 self.directory = arg
+            elif opt == "-b" or opt == "--baud":
+                self.baud_rate = arg
+            elif opt == "-m" or opt == "--max_queue_size"
+                self.max_queue_size = arg
     
 

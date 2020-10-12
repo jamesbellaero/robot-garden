@@ -10,16 +10,22 @@ def run_logger(argv):
     directory = args_parser.directory
     file_prefix = args_parser.file_prefix
     file_suffix = args_parser.file_suffix
+    baud_rate = args_parser.baud_rate
+    max_queue_size = args_parser.max_queue
 
     # Open port
     parser = data_parser.DataParser()
-    reader = port_reader.PortReader(port)
-    logger = data_logger.DataLogger(directory = directory, prefix = file_prefix, suffix = file_suffix)
 
-    reader.begin()
+    reader_kwargs = dict(port = port,baud_rate = baud_rate, max_size = max_queue_size)
+    reader = port_reader.PortReader(**{k: v for k, v in reader_kwargs.items() if v is not None})
+
+    logger_kwargs = dict(directory, prefix = file_prefix, suffix = file_suffix)
+    logger = data_logger.DataLogger(**{k: v for k, v in logger_kwargs.items() if v is not None})
+
+    reader.start()
 
     # Begin reading data
-    while(reader.open()):
+    while(reader.is_alive()):
         #poll the port reader
         data_packet = reader.next_packet()
         
@@ -27,9 +33,17 @@ def run_logger(argv):
 
         logger.log(measurement)
     
+    
     logger.close()
-    print("Measurement reader ended: ", reader.get_error())
-    logger.log_error(reader.get_error())
+
+    error_list = reader.get_errors()
+    print("Measurement reader ended: ", error_list[len(error_list)-1])
+    for err in error_list:
+        logger.log_error(source = "PortReader", error = err)
+    for err in parser.get_errors():
+        logger.log_error(source = "DataParser", error = err)
+    for err in logger.get_errors():
+        logger.log_error(source = "DataLogger", error = err)
 
 
 # if this file is called directly from the command line.
