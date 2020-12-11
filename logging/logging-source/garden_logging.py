@@ -2,6 +2,12 @@ import sys
 
 import serial
 
+import port_reader
+import data_logger
+import data_parser
+import port_reader
+import argument_parser
+
 def run_logger(argv):
     # Read in command line arguments
     args_parser = argument_parser.ArgumentParser()

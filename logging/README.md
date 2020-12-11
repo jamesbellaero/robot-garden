@@ -19,7 +19,6 @@ Lastly, the JSON data should take on the following format:
     "meas_type" : "Type of measurement coming from the source",
     "time" : 0,
     "value" : 1
-
 }
 ```
 

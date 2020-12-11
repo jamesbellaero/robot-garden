@@ -15,7 +15,7 @@ class DataLogger:
         # Create a new file if necessary
         if(not file_list[measurement.source].contains(measurement.meas_type)):
             fh = open(measurement.source + "/" + measurement.meas_type + ".txt", "w")
-            self.file_list[measurement.source].append((measurement.meas_type,fh)
+            self.file_list[measurement.source].append((measurement.meas_type,fh))
         # Write to file
         fh = None
         handle_list = self.file_list[measurement.source]
