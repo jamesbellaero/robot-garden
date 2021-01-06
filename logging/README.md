@@ -1,5 +1,10 @@
 This small python library is setup to read data from multiple ports and log it to files.
 
+Requires the following python modules:
+```pyserial```
+```getopt```
+```json```
+
 An overview for how this program runs is:
 1. The user runs ```garden_logging.py``` 
 2. The ArgumentParser determines which ports should be opened
