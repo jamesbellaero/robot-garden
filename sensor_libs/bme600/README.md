@@ -1,0 +1,1 @@
+Uses the Bosch C library for the BME600 to extract data from the sensor. Converts this data to JSON then sends it over a serial link.
