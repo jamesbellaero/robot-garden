@@ -1,4 +1,29 @@
 #include "bme680.h"
+#include "bme680_defs.h"
+
+
+/** Type definitions */
+/*!
+ * Generic communication function pointer
+ * @param[in] dev_id: Place holder to store the id of the device structure
+ *                    Can be used to store the index of the Chip select or
+ *                    I2C address of the device.
+ * @param[in] reg_addr:  Used to select the register the where data needs to
+ *                      be read from or written to.
+ * @param[in/out] reg_data: Data array to read/write
+ * @param[in] len: Length of the data array
+ */
+//typedef int8_t (*bme680_com_fptr_t)(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len);
+
+int8_t readI2CPin(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len)
+{
+  
+}
+
+int8_t writeI2CPin(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len)
+{
+  
+}
 
 void setup() {
   
@@ -10,8 +35,8 @@ void setup() {
   
   gas_sensor.dev_id = BME680_I2C_ADDR_PRIMARY;
   gas_sensor.intf = BME680_I2C_INTF;
-  gas_sensor.read = ;
-  gas_sensor.write = user_i2c_write;
+  gas_sensor.read = &readI2CPin;
+  gas_sensor.write = &writeI2CPin;
   gas_sensor.delay_ms = 100; //100 ms
   /* amb_temp can be set to 25 prior to configuring the gas sensor 
    * or by performing a few temperature readings without operating the gas sensor.
@@ -41,7 +66,7 @@ void setup() {
   gas_sensor.power_mode = BME680_FORCED_MODE; 
   
   /* Set the required sensor settings needed */
-  set_required_settings = BME680_OST_SEL | BME680_OSP_SEL | BME680_OSH_SEL | BME680_FILTER_SEL 
+  uint8_t set_required_settings = BME680_OST_SEL | BME680_OSP_SEL | BME680_OSH_SEL | BME680_FILTER_SEL 
       | BME680_GAS_SENSOR_SEL;
   
   /* Set the desired sensor configuration */
