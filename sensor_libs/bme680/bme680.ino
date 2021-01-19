@@ -1,6 +1,8 @@
 #include "bme680.h"
 #include "bme680_defs.h"
 #include "Wire.h"
+#include "ArduinoJson.h"
+#include "string.h"
 
 
 uint16_t meas_period;
@@ -69,10 +71,22 @@ static int8_t null_ptr_check(const struct bme680_dev *dev)
 
 static void delay_msec(uint32_t ms) { delay(ms); }
 
+void serializeJsonMeasurement(Print& aOutput, double aValue, const char* aMeasType, const char* aUnits)
+{
+  StaticJsonDocument<256> doc;
+  doc["source"] = "BME680";
+  doc["meas_type"]  = aMeasType;
+  doc["time"] = millis()/1000.0f;
+  doc["units"] = aUnits;
+  doc["value"] = aValue;
 
+  serializeJson(doc,aOutput);
+  aOutput.println();
+  doc.clear();
+}
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   bmeWire = &Wire;
   bmeWire->begin();
   
@@ -124,9 +138,6 @@ void setup() {
   
   // Set the power mode 
   rslt = bme680_set_sensor_mode(&gas_sensor);
-
-  
-
 }
 
 void loop() {
@@ -137,31 +148,16 @@ void loop() {
   struct bme680_field_data data;
   int8_t rslt = bme680_get_sensor_data(&data, &gas_sensor);
 
-//  char buff[100];
-//  sprintf(buff,"T: %.2f degC, P: %.2f hPa, H %.2f %%rH ", data.temperature / 100.0f,
-//      data.pressure / 100.0f, data.humidity / 1000.0f );
-//  Serial.print(buff);
-
-  Serial.print("Temp: ");
-  Serial.println(data.temperature/100);
-  Serial.print("Pressure: ");
-  Serial.println(data.pressure);
-  Serial.print("Humidity: ");
-  Serial.println(data.humidity);
-  // Avoid using measurements from an unstable heating setup 
+  serializeJsonMeasurement(Serial, data.temperature/100.0f,"Temperature","Celsius");
+  serializeJsonMeasurement(Serial, data.pressure*10.0f,"Pressure","Pascals"); // divide by 100 to get hPa
+  serializeJsonMeasurement(Serial, data.humidity/1000.0f,"Humidity","Relative Humidity");
+  
   if(data.status & BME680_GASM_VALID_MSK)
   {
-      char buff2[50];
-      sprintf(buff2,", G: %d ohms", data.gas_resistance);
-      Serial.write(buff2);
+    serializeJsonMeasurement(Serial, data.gas_resistance,"Gas Resistance","Ohms");
   }
-
-  Serial.write("\r\n");
-
-  // Trigger the next measurement if you would like to read data out continuously 
+  
   if (gas_sensor.power_mode == BME680_FORCED_MODE) {
       rslt = bme680_set_sensor_mode(&gas_sensor);
   }
-  
-  
 }
