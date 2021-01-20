@@ -1,4 +1,5 @@
 import json
+import logging_types
 
 class DataParser:
     def __init__(self):

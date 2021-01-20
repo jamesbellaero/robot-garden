@@ -25,8 +25,8 @@ def run_logger(argv):
     reader_kwargs = dict(port = port,baud_rate = baud_rate, max_size = max_queue_size)
     reader = port_reader.PortReader(**{k: v for k, v in reader_kwargs.items() if v is not None})
 
-    logger_kwargs = dict(directory, prefix = file_prefix, suffix = file_suffix)
-    logger = data_logger.DataLogger(**{k: v for k, v in logger_kwargs.items() if v is not None})
+    logger_kwargs = dict(directory = directory, prefix = file_prefix, suffix = file_suffix)
+    logger = data_logger.DataLogger() #**{k: v for k, v in logger_kwargs.items() if v is not None}
 
     reader.start()
 
@@ -34,6 +34,9 @@ def run_logger(argv):
     while(reader.is_alive()):
         #poll the port reader
         data_packet = reader.next_packet()
+
+        if(not data_packet):
+            continue
         
         measurement = parser.parse_packet(data_packet)
 
