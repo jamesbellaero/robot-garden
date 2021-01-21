@@ -1,6 +1,7 @@
 import sys
 
 import serial
+import time
 
 import port_reader
 import data_logger
@@ -36,11 +37,18 @@ def run_logger(argv):
         data_packet = reader.next_packet()
 
         if(not data_packet):
+            time.sleep(.02)
             continue
         
+        print(str(data_packet))
         measurement = parser.parse_packet(data_packet)
 
+        if(not measurement):
+            time.sleep(.02)
+            continue
+
         logger.log(measurement)
+        time.sleep(.001)
     
     
     logger.close()
@@ -51,8 +59,8 @@ def run_logger(argv):
         logger.log_error(source = "PortReader", error = err)
     for err in parser.get_errors():
         logger.log_error(source = "DataParser", error = err)
-    for err in logger.get_errors():
-        logger.log_error(source = "DataLogger", error = err)
+    #for err in logger.get_errors():
+    #    logger.log_error(source = "DataLogger", error = err)
 
 
 # if this file is called directly from the command line.

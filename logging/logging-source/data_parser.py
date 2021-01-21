@@ -17,12 +17,13 @@ class DataParser:
         if(json_data is None):
             return
         
-        source = json_data.source
-        meas_type = json_data.meas_type
-        time = json_data.time
-        value = json_data.value
+        source = json_data["source"]
+        meas_type = json_data["meas_type"]
+        time = json_data["time"]
+        value = json_data["value"]
+        units = json_data["units"]
 
-        measurement = logging_types.Measurement(source,meas_type,time,value)
+        measurement = logging_types.Measurement(source,meas_type,time,value,units)
 
         return measurement
 

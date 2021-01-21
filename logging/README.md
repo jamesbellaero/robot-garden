@@ -28,3 +28,5 @@ Lastly, the JSON data should take on the following format:
 ```
 
 This could easily be improved upon by having all measurements of a given source come in the same JSON block. That may come with time.
+
+Default call: python garden_logging.py -p "COM3" -d "testing-files" -P "prefix" -S "suffix"

@@ -10,54 +10,63 @@ class DataLogger:
         # Create a new directory if necessary
         if(not measurement.source in self.directory_list):
             self.directory_list.append(measurement.source)
-            self.file_list[measurement.source] = []
-            os.mkdir(measurement.source, 0o777) 
+            self.file_list.append({"source" : measurement.source, "files" : []})
+            if(not os.path.isdir(measurement.source)):
+                os.mkdir(measurement.source, 0o777) 
+
         # Create a new file if necessary
-        if(not measurement.meas_type in file_list[measurement.source]):
+        source_dict = next((s for s in self.file_list if s["source"] == measurement.source),None)
+        meas_dict = next((s for s in source_dict["files"] if s["meas_type"] == measurement.meas_type),None)
+
+        if(not meas_dict):
             fh = open(measurement.source + "/" + measurement.meas_type + ".txt", "w")
-            self.file_list[measurement.source].append((measurement.meas_type,fh))
+            meas_dict = {"meas_type" : measurement.meas_type, "file_handle" : fh}
+
         # Write to file
-        fh = None
-        handle_list = self.file_list[measurement.source]
-        for file, handle in handle_list:
-            if(file == measurement.meas_type):
-                fh = handle
+        fh = meas_dict["file_handle"]
 
         if(fh):
-            fh.write(measurement.time)
+            fh.write(str(measurement.time))
             fh.write(",")
-            i = 0
-            for v in measurement.value:
-                fh.write(v)
-                if(i < len(measurement.value)-1):
-                    fh.write(",")
-                i=i+1
+            fh.write(str(measurement.value))
+            fh.write(",")
+            fh.write(str(measurement.units))
+            fh.write("\n")
+
+            # *** In case values can be lists, fix this to not error ***
+            # i = 0
+            # for v in measurement.value:
+            #     fh.write(str(v))
+            #     if(i < len(measurement.value)-1):
+            #         fh.write(",")
+            #     i=i+1
 
     def log_error(self, source = "No Source", error = "No error"):
         if(not source in self.directory_list):
             self.directory_list.append(source)
-            self.file_list[source] = []
-            os.mkdir(source, 0o777) 
+            self.file_list.append({"source" : source, "files" : []})
+            if(not os.path.isdir(source)):
+                os.mkdir(source, 0o777) 
 
         filename = "runtime_errors"
-        if(not filename in file_list[source]):
+        meas_type = "runtime_error"
+        source_dict = next((s for s in self.file_list if s["source"] == source),None)
+        meas_dict = next((s for s in source_dict["files"] if s["meas_type"] == "runtime_error"),None)
+
+        if(not meas_dict):
             fh = open(source + "/" + filename + ".txt", "w")
-            self.file_list[source].append((filename,fh))
+            meas_dict = {"meas_type" : "runtime_error", "file_handle" : fh}
         
-        fh = None
-        handle_list = self.file_list[source]
-        for file, handle in handle_list:
-            if(file == filename):
-                fh = handle
+        fh = meas_dict["file_handle"]
 
         if(fh):
-            fh.write(error)
+            fh.write(str(error))
 
     
     def close(self):
-        for source, handle_list in self.file_list:
-            for file, handle in handle_list:
-                handle.close()
+        for source_dict in self.file_list:
+            for meas_dict in source_dict["files"]:
+                meas_dict["file_handle"].close()
     
         
 
