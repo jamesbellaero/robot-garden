@@ -14,24 +14,32 @@ class DataLogger:
             if(not os.path.isdir(measurement.source)):
                 os.mkdir(measurement.source, 0o777) 
 
+        
         # Create a new file if necessary
         source_dict = next((s for s in self.file_list if s["source"] == measurement.source),None)
         meas_dict = next((s for s in source_dict["files"] if s["meas_type"] == measurement.meas_type),None)
-
+        
         if(not meas_dict):
             fh = open(measurement.source + "/" + measurement.meas_type + ".txt", "w")
+            fh.write("Time (s), ")
+            fh.write(str(measurement.units))
+            fh.write("\n")
             meas_dict = {"meas_type" : measurement.meas_type, "file_handle" : fh}
-
+            source_dict["files"].append(meas_dict)
+        
+        
         # Write to file
         fh = meas_dict["file_handle"]
-
         if(fh):
             fh.write(str(measurement.time))
             fh.write(",")
             fh.write(str(measurement.value))
-            fh.write(",")
-            fh.write(str(measurement.units))
             fh.write("\n")
+            fh.flush()
+        
+        else:
+            print("Could not find file handle for ", measurement.source, " - ", measurement.meas_type)
+            print(str(fh))
 
             # *** In case values can be lists, fix this to not error ***
             # i = 0

@@ -17,6 +17,12 @@ class DataParser:
         if(json_data is None):
             return
         
+        key_list = ["source", "meas_type", "time", "value", "units"]
+
+        for key in key_list:
+            if(not key in json_data):
+                return None
+
         source = json_data["source"]
         meas_type = json_data["meas_type"]
         time = json_data["time"]

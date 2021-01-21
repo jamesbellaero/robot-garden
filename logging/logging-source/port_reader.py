@@ -20,7 +20,10 @@ class PortReader(threading.Thread):
         try:
             while(self.ser.is_open):    
                 data = self.ser.readline().rstrip()
-                self.packet_queue.append(data)
+
+                # NEED A CHECKSUM HERE
+
+                self.packet_queue.append(data)#[:-1]
         except serial.SerialException as err:
             self.errors.append(err)
             print("Error reading from serial port ",self.ser.port)
