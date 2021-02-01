@@ -4,6 +4,8 @@
 #include "ArduinoJson.h"
 #include "string.h"
 
+#include "RGSerialize.h"
+
 
 uint16_t meas_period;
 struct bme680_dev gas_sensor;
@@ -70,20 +72,6 @@ static int8_t null_ptr_check(const struct bme680_dev *dev)
 }
 
 static void delay_msec(uint32_t ms) { delay(ms); }
-
-void serializeJsonMeasurement(Print& aOutput, double aValue, const char* aMeasType, const char* aUnits)
-{
-  StaticJsonDocument<256> doc;
-  doc["source"] = "BME680";
-  doc["meas_type"]  = aMeasType;
-  doc["time"] = millis()/1000.0f;
-  doc["units"] = aUnits;
-  doc["value"] = aValue;
-
-  serializeJson(doc,aOutput);
-  aOutput.println();
-  doc.clear();
-}
 
 void setup() {
   Serial.begin(9600);
