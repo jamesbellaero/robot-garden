@@ -15,7 +15,7 @@ public:
     void InitializeCrcTable();
     void SetPattern(uint32_t aPattern);
     uint32_t GetPattern();
-    void CalculateCrc(const char* aData, char* aCrc);
+    void CalculateCrc(const char* aData, int aLen, char* aCrc);
 
 protected:
     uint32_t mPattern;
