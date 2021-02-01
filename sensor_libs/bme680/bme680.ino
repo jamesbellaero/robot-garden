@@ -4,13 +4,13 @@
 #include "ArduinoJson.h"
 #include "string.h"
 
-#include "RGSerialize.h"
+#include "CrcSerialize.hpp"
 
 
 uint16_t meas_period;
 struct bme680_dev gas_sensor;
 TwoWire *bmeWire = NULL;
-RGSerialize serializer;
+
 
 /** Type definitions */
 /*!
@@ -77,8 +77,6 @@ void setup() {
   Serial.begin(9600);
   bmeWire = &Wire;
   bmeWire->begin();
-
-  serializer.InitializeCrcTable();
   
   // Suggested defaults from Bosch  
   gas_sensor.dev_id = BME680_I2C_ADDR_PRIMARY;
@@ -138,9 +136,9 @@ void loop() {
   struct bme680_field_data data;
   int8_t rslt = bme680_get_sensor_data(&data, &gas_sensor);
 
-  serializer.SerializeJsonMeasurement(Serial, data.temperature/100.0f,"Temperature","Celsius");
-  serializer.SerializeJsonMeasurement(Serial, data.pressure*10.0f,"Pressure","Pascals"); // divide by 100 to get hPa
-  serializer.SerializeJsonMeasurement(Serial, data.humidity/1000.0f,"Humidity","Relative Humidity");
+  serializeJsonMeasurement(Serial, data.temperature/100.0f,"Temperature","Celsius");
+  serializeJsonMeasurement(Serial, data.pressure*10.0f,"Pressure","Pascals"); // divide by 100 to get hPa
+  serializeJsonMeasurement(Serial, data.humidity/1000.0f,"Humidity","Relative Humidity");
   
   if(data.status & BME680_GASM_VALID_MSK)
   {
