@@ -1,5 +1,6 @@
 #include "RGSerialize.hpp"
 #include "ArduinoJson.h"
+#include "string.h"
 
 RGSerialize::RGSerialize() : 
     mPattern(0x4C036099), // or 0x9960034C if endianness is off
@@ -24,8 +25,18 @@ void RGSerialize::SeriaizeJsonMeasurement(struct Print& aOutput, double aValue, 
     doc["units"] = aUnits;
     doc["value"] = aValue;
 
-    serializeJson(doc,aOutput);
+    std::string dataString = "";
+
+    serializeJson(doc,dataString);
+
+    char buffer[4];
+    CalculateCrc(dataString.c_str(), dataString.size(), buffer);
+    dataString.append(buffer);
+    aOutput.println(buffer);
     aOutput.println();
+
+    delete buffer;
+
     doc.clear();
 }
 
@@ -77,7 +88,7 @@ void RGSerialize::CalculateCrc(const char* aData, int aLen, char* aCrc)
             //     }
             // }
             uint8_t rightmost = (uint8_t)(remainder & 255);
-            remmainder = (remainder >> 8) ^ mCrcTable[aData[i] ^ rightmost];
+            remainder = (remainder >> 8) ^ mCrcTable[aData[i] ^ rightmost];
         }
         // A popular variant complements rem here
         return remainder;
