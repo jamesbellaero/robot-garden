@@ -3,6 +3,7 @@
 #include "Wire.h"
 #include "ArduinoJson.h"
 #include "string.h"
+#include <Array.h>
 
 #include "CrcSerialize.hpp"
 
@@ -81,6 +82,8 @@ void setup() {
   bmeWire->begin();
 
   serializer = CrcSerializer();
+
+  Serial.print(serializer.GetPattern());
   serializer.InitializeCrcTable();
   
 //  // Suggested defaults from Bosch  
@@ -138,7 +141,15 @@ void loop() {
   // More Bosch code
   delay(meas_period); // Delay till the measurement is ready 
 
-  serializer.SerializeJsonMeasurement(Serial, 50, "temp", "cels");
+  Array<char,4> crcRet = serializer.SerializeJsonMeasurement(Serial, 50, "temp", "cels");
+  String crcStr = "CRC Chars: ";
+  for(int i=0;i<4;i++)
+  {
+    crcStr += crcRet[i];
+    crcStr += "\t";
+  }
+  Serial.println(crcStr);
+  
 //
 //  struct bme680_field_data data;
 //  int8_t rslt = bme680_get_sensor_data(&data, &gas_sensor);

@@ -1,21 +1,23 @@
-#ifndef RGSERIALIZE_H
-#define RGSERIALIZE_H
+#ifndef CRCSERIALIZE_H
+#define CRCSERIALIZE_H
 
 #include "Arduino.h"
 
+#include <Array.h>
+
 // https://en.wikipedia.org/wiki/Computation_of_cyclic_redundancy_checks#Multi-bit_computation
 
-class RGSerializer
+class CrcSerializer
 {
 public:
-    RGSerializer();
-    RGSerializer(uint32_t aPattern);      
+    CrcSerializer();
+    CrcSerializer(uint32_t aPattern);      
     
-    uint32_t SerializeJsonMeasurement(struct Print& aOutput, double aValue, const char* aMeasType, const char* aUnits)
+    Array<char,4> SerializeJsonMeasurement(struct Print& aOutput, double aValue, const char* aMeasType, const char* aUnits);
     void InitializeCrcTable();
     void SetPattern(uint32_t aPattern);
     uint32_t GetPattern();
-    void CalculateCrc(const char* aData, int aLen, char* aCrc);
+    void CalculateCrc(const char* aData, int aLen, Array<char,4>& aCrc);
 
 protected:
     uint32_t mPattern;
@@ -25,4 +27,4 @@ protected:
 };
 
 
-#endif // RGSERIALIZE_H
+#endif // CRCSERIALIZE_H
