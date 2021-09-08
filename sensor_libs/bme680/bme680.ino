@@ -83,6 +83,7 @@ void setup() {
 
   serializer = CrcSerializer();
 
+  // TODO: Ensure this works properly
   Serial.print(serializer.GetPattern());
   serializer.InitializeCrcTable();
   
@@ -141,6 +142,7 @@ void loop() {
   // More Bosch code
   delay(meas_period); // Delay till the measurement is ready 
 
+  // TODO: Ensure this returns an array of the correct 4 chars, then ensure that hte conversions work properly from int to char. 
   Array<char,4> crcRet = serializer.SerializeJsonMeasurement(Serial, 50, "temp", "cels");
   String crcStr = "CRC Chars: ";
   for(int i=0;i<4;i++)
