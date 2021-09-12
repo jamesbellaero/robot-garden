@@ -144,13 +144,13 @@ void loop() {
 
   // TODO: Ensure this returns an array of the correct 4 chars, then ensure that hte conversions work properly from int to char. 
   Array<char,4> crcRet = serializer.SerializeJsonMeasurement(Serial, 50, "temp", "cels");
-  String crcStr = "CRC Chars: ";
-  for(int i=0;i<4;i++)
-  {
-    crcStr += crcRet[i];
-    crcStr += "\t";
-  }
-  Serial.println(crcStr);
+//  String crcStr = "CRC Chars: ";
+//  for(int i=0;i<4;i++)
+//  {
+//    crcStr += crcRet[i];
+//    crcStr += "\t";
+//  }
+//  Serial.println(crcStr);
   
 //
 //  struct bme680_field_data data;

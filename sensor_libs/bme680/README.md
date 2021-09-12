@@ -2,4 +2,5 @@ Uses the Bosch C library for the BME600 to extract data from the sensor. Convert
 
 Current setup process:
 1. Copy the folders from 3rd_party to ~/Documents/Arduino/libraries
+
  
