@@ -15,7 +15,7 @@ class ArgumentParser:
     def parse(self, argv):
         try:
             opts,args = getopt.getopt(argv,"p:P:S:d:b:m:",["port","prefix","suffix","directory","baud_rate","max_queue"])
-        except getopt.GetoptError:
+        except getopt.GetoptError as err:
             print("Error reading inputs. Allowable inputs are found in the README")
             sys.exit(2)
         

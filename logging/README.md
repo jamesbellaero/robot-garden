@@ -3,7 +3,7 @@ This small python library is setup to read data from multiple ports and log it t
 Requires the following python modules:
 ```pyserial```
 ```getopt```
-```json```
+```json``` (3.8- only)
 
 An overview for how this program runs is:
 1. The user runs ```garden_logging.py``` 

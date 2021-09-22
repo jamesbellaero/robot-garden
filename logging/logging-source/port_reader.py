@@ -21,35 +21,41 @@ class PortReader(threading.Thread):
         try:
             while(self.ser.is_open):    
                 data = self.ser.readline().rstrip()
-
+                print(data)
                 # CHECKSUM HERE
                 # convert everything to bits
                 data_bits = []
+                crc_length = 0
                 for i in range(len(data)):
                     eight_zeros = '00000000'
-                    bits = bin(ord([0]))[2:]
+                    bits = bin(data[i])[2:]
                     data_bits.append(eight_zeros[len(bits):]+bits)
-                
-                i = 0
+                i = len(data_bits)
                 # Take the pattern and xor consecutively along the value at each 1
-                while i > len(data_bits) - len(checksum_pattern):
-                    data_bits = xorLists(data_bits[i:],checksum_pattern)
+                while i > len(data_bits) - len(self.checksum_pattern):
+                    data_bits = self.xor_lists(data_bits[i:],self.checksum_pattern)
                     i_new = data_bits.find('1')
                     if(i_new == i):
                         self.errors.append(Exception("Cyclic Redundancy Check failed"))
+                 #       print(data_bits)
+                 #       print("failed\n")
+
                         break
-                
+                #print(data_bits)
+                #print("success\n")
+
                 if( i > 0):
                     return
                 # If it's not, log the error and return
-                # If it's zero, remove the last 32 bits and append the data    
-                self.packet_queue.append(data[0:-4])#[:-1]
+                # If it's zero, remove the last 32 bits and append the data
+                packet = data[0:data.find(b'}')+1]
+                self.packet_queue.append(packet)#[:-1]
         except serial.SerialException as err:
             self.errors.append(err)
             print("Error reading from serial port ",self.ser.port)
             self.ser.close()
             
-    def xorLists(self,list1,list2):
+    def xor_lists(self,list1,list2):
         n = min(len(list1),len(list2))
         result = [0]*n
         for i in range(n):
