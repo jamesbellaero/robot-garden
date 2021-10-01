@@ -29,12 +29,14 @@ class PortReader(threading.Thread):
                 for i in range(len(data)):
                     eight_zeros = '00000000'
                     bits = bin(data[i])[2:]
-                    data_bits.append(eight_zeros[len(bits):]+bits)
+                    bits_padded = eight_zeros[len(bits):]+bits
+                    for j in range(len(bits_padded)):
+                        data_bits.append(int(bits_padded[j]))
                 i = len(data_bits)
                 # Take the pattern and xor consecutively along the value at each 1
                 while i > len(data_bits) - len(self.checksum_pattern):
                     data_bits = self.xor_lists(data_bits[i:],self.checksum_pattern)
-                    i_new = data_bits.find('1')
+                    i_new = data_bits.index(1)
                     if(i_new == i):
                         self.errors.append(Exception("Cyclic Redundancy Check failed"))
                  #       print(data_bits)
