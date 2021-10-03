@@ -1,13 +1,14 @@
 import serial
 import collections
 import threading
+from crc_checksum import CrcChecksum
 
 class PortReader(threading.Thread):
     def __init__(self,port = 6230, baud_rate = 9600, max_size = 256):
         self.ser = serial.Serial(port = port, baudrate = baud_rate)
         self.errors = []
         self.packet_queue = collections.deque()
-        self.checksum_pattern = bin(0x4C036099)[2:]
+        self.checksum_helper = CrcChecksum()
         threading.Thread.__init__(self)
 
     def next_packet(self):
@@ -21,37 +22,42 @@ class PortReader(threading.Thread):
         try:
             while(self.ser.is_open):    
                 data = self.ser.readline().rstrip()
+
                 print(data)
                 # CHECKSUM HERE
-                # convert everything to bits
-                data_bits = []
-                crc_length = 0
-                for i in range(len(data)):
-                    eight_zeros = '00000000'
-                    bits = bin(data[i])[2:]
-                    bits_padded = eight_zeros[len(bits):]+bits
-                    for j in range(len(bits_padded)):
-                        data_bits.append(int(bits_padded[j]))
-                i = len(data_bits)
-                # Take the pattern and xor consecutively along the value at each 1
-                while i > len(data_bits) - len(self.checksum_pattern):
-                    data_bits = self.xor_lists(data_bits[i:],self.checksum_pattern)
-                    i_new = data_bits.index(1)
-                    if(i_new == i):
-                        self.errors.append(Exception("Cyclic Redundancy Check failed"))
-                 #       print(data_bits)
-                 #       print("failed\n")
+                # Grab the last 4 bytes of the data
+                data_string = data[0:-4]
+                data_checksum = data[-4:]
+                if(data_checksum == self.checksum_helper.calculate_crc(data_string)):
+                    packet = data[0:data.find(b'}')+1]
+                    self.packet_queue.append(packet)#[:-1]
 
-                        break
+                # convert everything to bits
+                # data_bits = []
+                # crc_length = 0
+                # for i in range(len(data)):
+                #     eight_zeros = '00000000'
+                #     bits = bin(data[i])[2:]
+                #     bits_padded = eight_zeros[len(bits):]+bits
+                #     for j in range(len(bits_padded)):
+                #         data_bits.append(int(bits_padded[j]))
+                # i = len(data_bits)
+                # Take the pattern and xor consecutively along the value at each 1
+                # while i > len(data_bits) - len(self.checksum_pattern):
+                #     data_bits = self.xor_lists(data_bits[i:],self.checksum_pattern)
+                #     i_new = data_bits.index(1)
+                #     if(i_new == i):
+                #         self.errors.append(Exception("Cyclic Redundancy Check failed"))
+                #  #       print(data_bits)
+                #  #       print("failed\n")
+
+                #         break
                 #print(data_bits)
                 #print("success\n")
 
-                if( i > 0):
-                    return
                 # If it's not, log the error and return
                 # If it's zero, remove the last 32 bits and append the data
-                packet = data[0:data.find(b'}')+1]
-                self.packet_queue.append(packet)#[:-1]
+
         except serial.SerialException as err:
             self.errors.append(err)
             print("Error reading from serial port ",self.ser.port)
