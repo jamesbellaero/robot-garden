@@ -2,6 +2,7 @@ This small python library is setup to read data from multiple ports and log it t
 
 Requires the following python modules:
 ```pyserial```
+```numpy```
 ```getopt```
 ```json``` (3.8- only)
 
