@@ -24,10 +24,15 @@ class PortReader(threading.Thread):
                 data = self.ser.readline().rstrip()
 
                 print(data)
+                if(len(data)<=4):
+                    continue
                 # CHECKSUM HERE
                 # Grab the last 4 bytes of the data
                 data_string = data[0:-4]
-                data_checksum = data[-4:]
+                data_checksum = list(data[-4:])
+                for i in range(0,4):
+                    data_checksum[i] = ord(data_checksum[i])
+
                 if(data_checksum == self.checksum_helper.calculate_crc(data_string)):
                     packet = data[0:data.find(b'}')+1]
                     self.packet_queue.append(packet)#[:-1]
