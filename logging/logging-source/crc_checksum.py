@@ -50,4 +50,4 @@ class CrcChecksum:
             crc[i] = (remainder >> (i-1)*8) & eight_bits
 
         
-        
+        return crc
