@@ -1,5 +1,5 @@
 class CrcChecksum:
-    def __init__(self, aPattern = 0x4C036099):
+    def __init__(self, aPattern = 0xEDB88320): #0xe792105a - the best one
         self.pattern = aPattern & pow(256,4)
         self.crcTable = [0]*256
         self.initalized = False

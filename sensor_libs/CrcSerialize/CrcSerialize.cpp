@@ -3,7 +3,7 @@
 #include <string>
 
 CrcSerializer::CrcSerializer() : 
-    mPattern(0x4C036099), // or 0x9960034C if endianness is off
+    mPattern(0xe792105a), // or 0x1cf2420b5 if endianness is off, 0x9960034C if hipster
     mCrcTable()
 {
     
